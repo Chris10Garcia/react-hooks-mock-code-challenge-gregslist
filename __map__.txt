@@ -1,0 +1,9 @@
+
+
+
+index.js
+    |- App
+        |- Header
+            |- Search
+        |- ListingsContainer
+            |- ListingCard
