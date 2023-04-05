@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import ListingsContainer from "./ListingsContainer";
 import AddListingForm from "./AddListingForm";
+import { SortListingLocation } from "./SortListingLocation";
+
 
 
 function App() {
@@ -43,14 +45,27 @@ function searchListing(search){
   setSearchValue(search)
 }
 
+function handleSortClick() {
+  
+  const sortedList = [...listingsList]
+  sortedList.sort((a,b) => {
+    const textA = a.location.toUpperCase()
+    const textB = b.location.toUpperCase()
+    return (textA < textB) ? -1 : (textA > textB) ? 1: 0
+  })
+  setListingsList(sortedList)
+
+}
+
 const filteredListing = searchValue === "" 
-? listingsList
-: listingsList.filter(listing => listing.description.toUpperCase().includes(searchValue.toUpperCase()))
+  ? listingsList
+  : listingsList.filter(listing => listing.description.toUpperCase().includes(searchValue.toUpperCase()))
 
   return (
     <div className="app">
       <Header searchListing={searchListing} />
       <AddListingForm addListing={addListing} />
+      <SortListingLocation handleSortClick={handleSortClick}/>
       <ListingsContainer listingsList = {filteredListing} deleteListing={deleteListingRequest} />
       
     </div>
