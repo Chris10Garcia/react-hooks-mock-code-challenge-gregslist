@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import ListingsContainer from "./ListingsContainer";
+import AddListingForm from "./AddListingForm";
+
 
 function App() {
 const jsonURL = 'http://localhost:6001/listings'
@@ -27,6 +29,16 @@ function deleteListingRequest(id){
   }
 }
 
+function addListing(formData){
+
+  fetch(jsonURL, {
+    method: "POST",
+    headers: {"Content-Type" : "application/json"},
+    body : JSON.stringify(formData)
+  })
+    .then(r => r.json()).then(data=> setListingsList([...listingsList, data]))
+}
+
 function searchListing(search){
   setSearchValue(search)
 }
@@ -38,7 +50,9 @@ const filteredListing = searchValue === ""
   return (
     <div className="app">
       <Header searchListing={searchListing} />
+      <AddListingForm addListing={addListing} />
       <ListingsContainer listingsList = {filteredListing} deleteListing={deleteListingRequest} />
+      
     </div>
   );
 }
